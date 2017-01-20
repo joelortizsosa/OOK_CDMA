@@ -10,7 +10,7 @@
 %clear;
 clearvars -except h1 h2
 t=tic;
-ebn0=25; % Eb/N0
+ebn0=40; % Eb/N0
 fprintf('Max Eb/No simulation: %d dB\n',ebn0)
 graficoxy = zeros(2,ebn0);
 fprintf('Running ook_CDMA...\n')
@@ -22,7 +22,7 @@ ml=1;                 % bits par symbol
 br=sr.*ml;            % Bit rate (=symbol rate in this case)
 nd = 100000;            % Number of symbols that simulates in each loop
 Multipath_Sim = 1;    % 1: Multipath + AWGN Simulation; 0: AWGN simulation
-rake=1;               % 1: RAKE activated 0: RAKE desactivated
+rake=0;               % 1: RAKE activated 0: RAKE desactivated
 
 %******************** Impulse Reponse of Multipath **********
 distance=[5 5 11.18 32.19]; % Distance entre le P1 et P2 defini par chaque tajectoire
@@ -136,7 +136,7 @@ set(h1,'NumberTitle','off');
 set(h1,'Name','BER Results');
 set(h1, 'renderer', 'zbuffer');  title('Coherent-OOK BER PLOTS');
 if Multipath_Sim == 1
-    semilogy(graficoxy(2,:),graficoxy(1,:),'b--o')
+    semilogy(graficoxy(2,:),graficoxy(1,:),'g--o')
 else
     semilogy(graficoxy(2,:),graficoxy(1,:),'k*')
 end

@@ -22,7 +22,7 @@ ml=1;                 % bits par symbol
 br=sr.*ml;            % Bit rate (=symbol rate in this case)
 nd = 1000;            % Number of symbols that simulates in each loop
 Multipath_Sim = 1;    % 1: Multipath + AWGN Simulation; 0: AWGN simulation
-rake=1;               % 1: RAKE activated 0: RAKE desactivated
+rake=0;               % 1: RAKE activated 0: RAKE desactivated
 
 %******************** Impulse Reponse of Multipath **********
 distance=[5 5 11.18 32.19]; % Distance entre le P1 et P2 defini par chaque tajectoire
@@ -40,7 +40,7 @@ for ebn0=0:ebn0
     
     %********************** Spreading code initialization **********************
 
-    user  = 3;             % number of users
+    user  = 7;             % number of users
     seq   = 4;             % 1:M-sequence  2:Gold  3:Orthogonal Gold 4:Hadamar codes
     size_hadamar=8;        % 8: max 7 user 16: max 15 users 
     if seq~=4
@@ -65,15 +65,15 @@ for ebn0=0:ebn0
     case 4
         code = generateHadamardMatrix(size_hadamar);
         %code = code(3:6,:);
-        %code = [code(3,:);code(4,:);code(5,:);code(7,:);code(8,:)];
+        code = [code(2,:);code(3,:);code(4,:);code(5,:);code(6,:);code(7,:);code(8,:)];
         %code = [code(7,:)];
-        code = [code(3,:);code(4,:);code(5,:)];
+        %code = [code(3,:);code(4,:);code(5,:)];
         %code = [code(3,:);code(4,:);code(5,:);code(6,:)];
     end
     code = code * 2 - 1;
     clen = length(code);
  
-        for iii=1:nloop
+        parfor iii=1:nloop
 
         %***************** Data generation ********************************  
             data=rand(user,nd*ml)>0.5;  % rand: built in function
@@ -135,7 +135,7 @@ set(h1,'NumberTitle','off');
 set(h1,'Name','BER Results');
 set(h1, 'renderer', 'zbuffer');  title('Coherent-OOK BER PLOTS');
 if Multipath_Sim == 1
-    semilogy(graficoxy(2,:),graficoxy(1,:),'r--o')
+    semilogy(graficoxy(2,:),graficoxy(1,:),'k--o')
 else
     semilogy(graficoxy(2,:),graficoxy(1,:),'k*')
 end
